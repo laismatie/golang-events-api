@@ -5,6 +5,14 @@ import (
 	"time"
 )
 
+var (
+	ErrInvalidEvent    = errors.New("invalid event data")
+	ErrEventFull       = errors.New("event is full")
+	ErrTicketNotFound  = errors.New("ticket not found")
+	ErrTicketNotEnough = errors.New("not enough tickets available")
+	ErrEventNotFound   = errors.New("event not found")
+)
+
 type Rating string
 
 const (
@@ -21,14 +29,14 @@ type Event struct {
 	Name         string
 	Location     string
 	Organization string
-	Rating       string
+	Rating       Rating
 	Date         time.Time
 	ImageURL     string
 	Capacity     int
 	Price        float64
 	PartnerID    int
 	Spots        []Spot
-	Ticket       []Ticket
+	Tickets      []Ticket
 }
 
 // Validate checks if the event data is valid.

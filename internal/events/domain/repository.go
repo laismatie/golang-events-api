@@ -6,7 +6,7 @@ type EventRepository interface {
 	FindSpotsByEventID(eventID string) ([]*Spot, error)
 	FindSpotByName(eventID, spotName string) (*Spot, error) // Atualizado
 	// CreateEvent(event *Event) error
-	// CreateSpot(spot *Spot) error
-	// CreateTicket(ticket *Ticket) error
+	CreateSpot(spot *Spot) error
+	CreateTicket(ticket *Ticket) error
 	ReserveSpot(spotID, ticketID string) error
 }

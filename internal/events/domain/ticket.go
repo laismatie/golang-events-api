@@ -2,14 +2,21 @@ package domain
 
 import "errors"
 
-type TicketKind string
+var (
+	ErrInvalidTicketKind = errors.New("invalid ticket kind")
+	ErrTicketPriceZero   = errors.New("ticket price must be greater than zero")
+)
 
-var ErrTicketPriceZero = errors.New("ticket price must be greater than zero")
+type TicketKind string
 
 const (
 	TicketKindHalf TicketKind = "half"
 	TicketKindFull TicketKind = "full"
 )
+
+func IsValidTicketType(ticketKind TicketKind) bool {
+	return ticketKind == TicketKindHalf || ticketKind == TicketKindFull
+}
 
 type Ticket struct {
 	ID         string
@@ -17,10 +24,6 @@ type Ticket struct {
 	Spot       *Spot
 	TicketKind TicketKind
 	Price      float64
-}
-
-func IsValidTicketType(ticketKind TicketKind) bool {
-	return ticketKind == TicketKindHalf || ticketKind == TicketKindFull
 }
 
 // CalculatePrice calculates the price based on the ticket kind.
