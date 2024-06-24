@@ -1,6 +1,10 @@
 package domain
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/google/uuid"
+)
 
 var (
 	ErrInvalidTicketKind = errors.New("invalid ticket kind")
@@ -14,7 +18,7 @@ const (
 	TicketKindFull TicketKind = "full"
 )
 
-func IsValidTicketType(ticketKind TicketKind) bool {
+func IsValidTicketKind(ticketKind TicketKind) bool {
 	return ticketKind == TicketKindHalf || ticketKind == TicketKindFull
 }
 
@@ -24,6 +28,27 @@ type Ticket struct {
 	Spot       *Spot
 	TicketKind TicketKind
 	Price      float64
+}
+
+func NewTicket(event *Event, spot *Spot, ticketKind TicketKind) (*Ticket, error) {
+	if !IsValidTicketKind(ticketKind) {
+		return nil, ErrInvalidTicketKind
+	}
+
+	ticket := &Ticket{
+		ID:         uuid.New().String(),
+		EventID:    event.ID,
+		Spot:       spot,
+		TicketKind: ticketKind,
+		Price:      event.Price,
+	}
+
+	ticket.CalculatePrice()
+	if err := ticket.Validate(); err != nil {
+		return nil, err
+	}
+
+	return ticket, nil
 }
 
 // CalculatePrice calculates the price based on the ticket kind.
