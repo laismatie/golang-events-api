@@ -25,8 +25,8 @@ func main() {
 	}
 
 	partnerBaseURLs := map[int]string{
-		1: "http://localhost:8000/partner1",
-		2: "http://localhost:8000/partner2",
+		1: "http://host.docker.internal:8000/partner1",
+		2: "http://host.docker.internal:8000/partner2",
 	}
 
 	partnerFactory := service.NewPartnerFactory(partnerBaseURLs)
